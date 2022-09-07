@@ -14,9 +14,13 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-              children: transactions.map((el) {
-                return Card(
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: ListView.builder(
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final el = transactions[index];
+          return Card(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -54,7 +58,8 @@ class TransactionList extends StatelessWidget {
                     ],
                   ),
                 );
-              }).toList(),
-            );
+        }
+      ),
+    );
   }
 }
