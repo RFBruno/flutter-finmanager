@@ -6,21 +6,33 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  
   final List<Transaction> transactions;
 
   TransactionList(this.transactions);
-
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.5,
-      child: ListView.builder(
-        itemCount: transactions.length,
-        itemBuilder: (context, index) {
-          final el = transactions[index];
-          return Card(
+      child: transactions.isEmpty
+          ? Column(
+              children: [
+                const SizedBox(height: 25,),
+                Text(
+                  'Nenhuma transação cadastrada !',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(height: 40,),
+                Expanded(
+                  child: Image.asset('assets/images/waiting.png'),
+                )
+              ],
+            )
+          : ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (context, index) {
+                final el = transactions[index];
+                return Card(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -30,24 +42,21 @@ class TransactionList extends StatelessWidget {
                           horizontal: 15,
                         ),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.purpleAccent, width: 2)),
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          'R\$ ${el.value.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.purpleAccent),
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2,
+                          ),
                         ),
+                        padding: const EdgeInsets.all(10),
+                        child: Text('R\$ ${el.value.toStringAsFixed(2)}',
+                            style: Theme.of(context).textTheme.headline6),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             el.title,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.headline5,
                           ),
                           Text(
                             DateFormat('d MMM y').format(el.date),
@@ -58,8 +67,7 @@ class TransactionList extends StatelessWidget {
                     ],
                   ),
                 );
-        }
-      ),
+              }),
     );
   }
 }
