@@ -17,12 +17,16 @@ class TransactionList extends StatelessWidget {
       child: transactions.isEmpty
           ? Column(
               children: [
-                const SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 Text(
                   'Nenhuma transação cadastrada !',
                   style: Theme.of(context).textTheme.headline6,
                 ),
-                const SizedBox(height: 40,),
+                const SizedBox(
+                  height: 40,
+                ),
                 Expanded(
                   child: Image.asset('assets/images/waiting.png'),
                 )
@@ -33,38 +37,28 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final el = transactions[index];
                 return Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2,
+                  elevation: 5,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$${el.value}',
+                            style: Theme.of(context).textTheme.headline4
                           ),
                         ),
-                        padding: const EdgeInsets.all(10),
-                        child: Text('R\$ ${el.value.toStringAsFixed(2)}',
-                            style: Theme.of(context).textTheme.headline6),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            el.title,
-                            style: Theme.of(context).textTheme.headline5,
-                          ),
-                          Text(
-                            DateFormat('d MMM y').format(el.date),
-                            style: const TextStyle(color: Colors.blueGrey),
-                          )
-                        ],
-                      )
-                    ],
+                    ),
+                    title: Text(
+                      el.title,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    subtitle: Text(DateFormat('d MMM y').format(el.date)),
                   ),
                 );
               }),

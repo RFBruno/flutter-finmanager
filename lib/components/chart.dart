@@ -1,3 +1,4 @@
+import 'package:finmanager/components/chart_bar.dart';
 import 'package:finmanager/models/transction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -11,7 +12,6 @@ class Chart extends StatelessWidget {
 
   List<Map<String, Object>> get groupedTransactions {
     return List.generate(7, (index) {
-
       final weekDay = DateTime.now().subtract(Duration(days: index));
 
       double totalSum = 0;
@@ -21,7 +21,7 @@ class Chart extends StatelessWidget {
         bool sameMonth = element.date.month == weekDay.month;
         bool sameYear = element.date.year == weekDay.year;
 
-        if(sameDay && sameMonth && sameYear){
+        if (sameDay && sameMonth && sameYear) {
           totalSum += element.value;
         }
       }
@@ -30,11 +30,17 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay)[0],
         'value': totalSum,
       });
-      
+
       return {
         'day': DateFormat.E().format(weekDay)[0],
         'value': totalSum,
       };
+    }).reversed.toList();
+  }
+
+  double get _weekTotalValue {
+    return groupedTransactions.fold(0.0, (sum, el){
+      return sum + (el['value'] as double);
     });
   }
 
@@ -43,10 +49,21 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactions.map((el) {
-            return Text("${el['day']} : ${el['value']}");
-          }).toList()
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupedTransactions.map((el) {
+              // return Text("${el['day']} : ${el['value']}");
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                  label: el['day'].toString(),
+                  value: double.parse(el['value'].toString()),
+                  percentage: (el['value'] as double) / _weekTotalValue,
+                ),
+              );
+            }).toList()),
       ),
     );
   }

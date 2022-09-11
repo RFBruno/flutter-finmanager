@@ -37,6 +37,11 @@ class myApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
+          headline4: const TextStyle(
+            fontFamily: 'Quicksand',
+            color: Colors.white,
+          ),
+
         ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -76,6 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Conta de luz',
       value: 211.30,
       date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+
+    Transaction(
+      id: 't2',
+      title: 'Conta de luz 250',
+      value: 121.30,
+      date: DateTime.now().subtract(Duration(days: 2)),
     ),
   ];
 
@@ -131,7 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Container(
               child: Card(
-                color: Colors.lightBlueAccent,
                 elevation: 5,
                 child: Chart(_recentTransactions),
               ),
@@ -148,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => _openTransactionFormModal(context),
         child: const Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
