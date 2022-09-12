@@ -41,7 +41,14 @@ class myApp extends StatelessWidget {
             fontFamily: 'Quicksand',
             color: Colors.white,
           ),
-
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(
+              fontFamily: 'Quicksand',
+              fontWeight: FontWeight.bold
+            ),
+          ),
         ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -64,31 +71,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-      id: 't0',
-      title: 'Teste 1 mês',
-      value: 510.76,
-      date: DateTime.now().subtract(Duration(days: 33)),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Novo tenis',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 5)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de luz',
-      value: 211.30,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-
-    Transaction(
-      id: 't2',
-      title: 'Conta de luz 250',
-      value: 121.30,
-      date: DateTime.now().subtract(Duration(days: 2)),
-    ),
+    // Transaction(
+    //   id: 't0',
+    //   title: 'Teste 1 mês',
+    //   value: 510.76,
+    //   date: DateTime.now().subtract(Duration(days: 33)),
+    // ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Novo tenis',
+    //   value: 310.76,
+    //   date: DateTime.now().subtract(Duration(days: 5)),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Conta de luz',
+    //   value: 211.30,
+    //   date: DateTime.now().subtract(Duration(days: 3)),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Conta de luz 250',
+    //   value: 121.30,
+    //   date: DateTime.now().subtract(Duration(days: 2)),
+    // ),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -101,12 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
@@ -115,6 +121,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Navigator.of(context).pop();
   }
+
+  void _removeTransaction(String id){
+      setState(() {
+        _transactions.removeWhere((el) => el.id == id);
+      });
+    }
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
@@ -125,10 +137,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+
+  final appBar = AppBar(
         title: const Text('Despesas pessoais'),
         actions: [
           IconButton(
@@ -136,21 +149,24 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.add),
           )
         ],
-      ),
+      );
+  final availableHeight = MediaQuery.of(context).size.height -
+      appBar.preferredSize.height - MediaQuery.of(context).padding.top;
+
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              child: Card(
-                elevation: 5,
-                child: Chart(_recentTransactions),
-              ),
+            SizedBox(
+              height: availableHeight * 0.3,
+              child: Chart(_recentTransactions),
             ),
-            Column(
-              children: [
-                TransactionList(_transactions),
-              ],
+            SizedBox(
+              height: availableHeight * 0.7,
+              child: TransactionList( transactions: _transactions, onRemove: _removeTransaction),
             )
           ],
         ),

@@ -25,12 +25,6 @@ class Chart extends StatelessWidget {
           totalSum += element.value;
         }
       }
-
-      print({
-        'day': DateFormat.E().format(weekDay)[0],
-        'value': totalSum,
-      });
-
       return {
         'day': DateFormat.E().format(weekDay)[0],
         'value': totalSum,
@@ -48,19 +42,18 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: groupedTransactions.map((el) {
-              // return Text("${el['day']} : ${el['value']}");
               return Flexible(
                 fit: FlexFit.tight,
                 child: ChartBar(
                   label: el['day'].toString(),
                   value: double.parse(el['value'].toString()),
-                  percentage: (el['value'] as double) / _weekTotalValue,
+                  percentage: _weekTotalValue == 0 ? 0 : (el['value'] as double) / _weekTotalValue,
                 ),
               );
             }).toList()),
