@@ -10,15 +10,12 @@ The application has a simple organization where I create some components, model 
 
 Here are the technologies used in this project.
 
-- Flutter version 3.10.0
-- Dart version 3.0.0
+- Flutter version 3.0.0
+- Dart version 2.17.0
 
 ## Techniques Used
 
-- Modular architecture
-- Provider
-- Firebase auth
-- SQLite
+- setState
 
 ## Services Used
 
