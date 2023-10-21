@@ -31,7 +31,7 @@ Here are the technologies used in this project.
   - Flutter environment   
 
 ## Demo
-![](https://github.com/RFBruno/flutter-finmanager/assets/42716180/66c0e5d4-f122-4abc-aeac-b20a43dce638)
+<img src="https://user-images.githubusercontent.com/42716180/277088042-66c0e5d4-f122-4abc-aeac-b20a43dce638.gif" alt="Result" width="45%"> <br/>
 
 ## Features
 
